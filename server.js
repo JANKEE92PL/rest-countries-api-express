@@ -2,6 +2,8 @@ const express = require("express");
 const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
 const app = express();
+app.use(express.static("public"));
+app.use(bodyParser.json());
 app.set("view engine", "ejs");
 
 app.listen(3000, function () {
@@ -35,6 +37,10 @@ MongoClient.connect(
           res.redirect("/");
         })
         .catch((error) => console.error(error));
+    });
+
+    app.put("/countries", (req, res) => {
+      console.log(req.body);
     });
   })
   .catch(console.error);
