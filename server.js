@@ -2,6 +2,7 @@ const express = require("express");
 const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
 const app = express();
+app.set("view engine", "ejs");
 
 app.listen(3000, function () {
   console.log("listening on 3000");
@@ -16,7 +17,15 @@ MongoClient.connect(
     console.log("Connected to Database");
     const db = client.db("countries");
     const countriesCollection = db.collection("countries");
+
     app.get("/", (req, res) => {
+      db.collection("countries")
+        .find()
+        .toArray()
+        .then((results) => {
+          console.log(results);
+        })
+        .catch((error) => console.error(error));
       res.sendFile(__dirname + "/index.html");
     });
 
