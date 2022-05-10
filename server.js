@@ -6,26 +6,27 @@ const app = express();
 app.listen(3000, function () {
   console.log("listening on 3000");
 });
+app.use(bodyParser.urlencoded({ extended: true }));
 
 MongoClient.connect(
   "mongodb+srv://dbUser:Sdafskizpae4QQhB@cluster0.gatr2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-  {
-    useUnifiedTopology: true,
-  },
-  (err, client) => {
-    if (err) return console.error(err);
+  { useUnifiedTopology: true }
+)
+  .then((client) => {
     console.log("Connected to Database");
-  }
-);
+    const db = client.db("countries");
+    const countriesCollection = db.collection("countries");
+    app.get("/", (req, res) => {
+      res.sendFile(__dirname + "/index.html");
+    });
 
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
-app.post("/quotes", (req, res) => {
-  console.log(req.body);
-});
-
+    app.post("/countries", (req, res) => {
+      countriesCollection
+        .insertOne(req.body)
+        .then((result) => {
+          res.redirect("/");
+        })
+        .catch((error) => console.error(error));
+    });
+  })
+  .catch(console.error);
