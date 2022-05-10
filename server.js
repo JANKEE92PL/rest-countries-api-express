@@ -23,10 +23,9 @@ MongoClient.connect(
         .find()
         .toArray()
         .then((results) => {
-          console.log(results);
+          res.render("index.ejs", { countries: results });
         })
         .catch((error) => console.error(error));
-      res.render("index.ejs", {});
     });
 
     app.post("/countries", (req, res) => {

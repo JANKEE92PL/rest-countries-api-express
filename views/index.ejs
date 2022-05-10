@@ -15,6 +15,16 @@
         <input type="text" placeholder="quote" name="quote">
         <button type="submit">Submit</button>
     </form>
+    <h2> Quotes </h2>
+
+    <ul class="countries">
+        <% countries.forEach(function(country) { %>
+            <li class="country">
+                <span><%= country.name %></span>
+                <span><%= country.quote %></span>
+            </li>
+        <% }); %>
+    </ul>
 </body>
 
 </html>
