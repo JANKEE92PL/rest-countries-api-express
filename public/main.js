@@ -8,5 +8,11 @@ update.addEventListener("click", (_) => {
       name: "England",
       quote: "English speaking people like the Queen",
     }),
-  });
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+    })
+    .then((response) => {
+      console.log(response);
+    });
 });
